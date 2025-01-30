@@ -1,4 +1,4 @@
-window.function = async function(api_key, thread_id, metadata) {
+window.function = async function(api_key, thread_id, metadata, tool_resources) {
     // Validate API Key
     if (!api_key.value) {
         return "Error: OpenAI API Key is required.";
@@ -9,22 +9,34 @@ window.function = async function(api_key, thread_id, metadata) {
         return "Error: Thread ID is required.";
     }
 
-    // Validate Metadata
-    let metadataValue;
+    // Parse metadata if provided
+    let metadataValue = undefined;
     if (metadata.value) {
         try {
             metadataValue = JSON.parse(metadata.value);
         } catch (e) {
             return "Error: Invalid JSON format for metadata.";
         }
-    } else {
-        return "Error: Metadata is required.";
     }
 
-    // Construct request payload
-    const payload = {
-        metadata: metadataValue
-    };
+    // Parse tool resources if provided
+    let toolResourcesValue = undefined;
+    if (tool_resources.value) {
+        try {
+            toolResourcesValue = JSON.parse(tool_resources.value);
+        } catch (e) {
+            return "Error: Invalid JSON format for tool resources.";
+        }
+    }
+
+    // Construct request payload (only include fields if they have valid values)
+    const payload = {};
+    if (metadataValue) payload.metadata = metadataValue;
+    if (toolResourcesValue) payload.tool_resources = toolResourcesValue;
+
+    if (Object.keys(payload).length === 0) {
+        return "Error: At least one of metadata or tool_resources must be provided.";
+    }
 
     // API endpoint URL
     const apiUrl = `https://api.openai.com/v1/threads/${thread_id.value}`;
