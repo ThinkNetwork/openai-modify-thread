@@ -1,9 +1,8 @@
-
 [
   {
     "kind": "column",
-    "name": "OpenAI (Assistants)",
-    "description": "Create, modify and run OpenAI Assistants.",
+    "name": "Modify OpenAI Thread",
+    "description": "Modify an existing conversation thread's metadata and tool resources in OpenAI's API.",
     "author": "Gavin Horne <gavin@thinknetwork.com.au>",
     "params": [
       {
@@ -12,18 +11,18 @@
         "type": "string"
       },
       {
-        "name": "endpoint",
-        "displayName": "API Endpoint (Required)",
+        "name": "thread_id",
+        "displayName": "Thread ID (Required)",
         "type": "string"
       },
       {
-        "name": "body",
-        "displayName": "Body (JSON Schema Required)",
+        "name": "metadata",
+        "displayName": "Metadata (JSON format, Optional)",
         "type": "string"
       },
       {
-        "name": "json",
-        "displayName": "JSON Schema (Output)",
+        "name": "tool_resources",
+        "displayName": "Tool Resources (JSON format, Optional)",
         "type": "string"
       }
     ],
